@@ -273,10 +273,8 @@
             'img/spaces/space-2.webp',
             'img/spaces/space-1.webp'
         ];
-        images.sort((a, b) => {
-            const number = (src) => Number(src.match(/space-(\d+)/)?.[1] ?? 0);
-            return number(b) - number(a);
-        });
+        const getImageNumber = (src) => Number(src.match(/spaces?-(\d+)/)?.[1] ?? 0);
+        images.sort((a, b) => getImageNumber(b) - getImageNumber(a));
 
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
@@ -290,7 +288,7 @@
 
             const thumbnail = document.createElement('img');
             thumbnail.src = src;
-            thumbnail.alt = `Space ${src.match(/space-(\d+)/)[1]}`;
+            thumbnail.alt = `Space ${getImageNumber(src)}`;
             thumbnail.loading = 'lazy';
             item.append(thumbnail);
 
