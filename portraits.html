@@ -273,17 +273,32 @@
 
         function layoutGalleryColumns() {
             const columnCount = window.matchMedia('(min-width: 768px)').matches ? 3 : 2;
+            const columnGap = parseFloat(getComputedStyle(galleryGrid).columnGap) || 0;
+            const rowGap = parseFloat(getComputedStyle(galleryColumns[0]).rowGap) || 0;
+            const columnWidth = (galleryGrid.clientWidth - columnGap * (columnCount - 1)) / columnCount;
+            const columnHeights = Array(columnCount).fill(0);
 
             galleryColumns.forEach((column, index) => {
                 column.hidden = index >= columnCount;
                 column.replaceChildren();
             });
 
-            galleryItems.forEach((item, index) => {
-                galleryColumns[index % columnCount].append(item);
+            galleryItems.forEach((item) => {
+                const image = item.querySelector('img');
+                const columnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+                const aspectRatio = image.naturalWidth && image.naturalHeight
+                    ? image.naturalHeight / image.naturalWidth
+                    : 1;
+
+                galleryColumns[columnIndex].append(item);
+                columnHeights[columnIndex] += columnWidth * aspectRatio + rowGap;
             });
         }
 
+        galleryItems.forEach((item) => {
+            item.querySelector('img').addEventListener('load', layoutGalleryColumns);
+        });
+        window.addEventListener('resize', layoutGalleryColumns);
         window.matchMedia('(min-width: 768px)').addEventListener('change', layoutGalleryColumns);
         layoutGalleryColumns();
 
