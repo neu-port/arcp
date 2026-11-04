@@ -3,82 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCP</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <title>About | ARCP</title>
+    <link rel="preload" href="fonts/eb-garamond-latin-400.woff2" as="font" type="font/woff2" crossorigin>
     <style>
-        body {
-            font-family: 'Playfair Display', Georgia, serif;
+        @font-face {
+            font-family: 'EB Garamond';
+            font-style: normal;
+            font-weight: 400;
+            font-display: block;
+            src: url('fonts/eb-garamond-latin-ext-400.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
         }
-        html,
-        body.bg-white {
-            background-color: #fff;
+        @font-face {
+            font-family: 'EB Garamond';
+            font-style: normal;
+            font-weight: 400;
+            font-display: block;
+            src: url('fonts/eb-garamond-latin-400.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'EB Garamond', serif;
+            background: #f8f8f7;
+            color: black;
+        }
+        a {
+            color: #456b88;
+        }
+        a:hover {
+            color: #36566d;
+        }
+        html {
+            background-color: #f8f8f7;
         }
         .site-nav {
-            position: fixed;
-            inset: 0 0 auto;
+            position: sticky;
+            top: 0;
             z-index: 50;
-            padding: 1rem 0;
-            background-color: #fff;
+            padding: 1rem 0 0;
+            background-color: #f8f8f7;
             isolation: isolate;
         }
         .nav-inner {
-            display: flex;
+            display: grid;
             width: 90vw;
-            max-width: none;
-            margin-left: 5vw;
-            margin-right: 5vw;
-            align-items: stretch;
-            flex-direction: column;
+            margin: 0 auto;
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-areas:
+                "title title"
+                "links links";
             gap: 1rem;
         }
         .about-container {
             width: 100%;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            letter-spacing: 0.1em;
+            font-weight: 400;
+        }
+        .about-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .about-copy p {
+            margin: 0;
         }
         .about-container a {
             overflow-wrap: anywhere;
+            text-decoration: none;
+            transition: color 0.15s ease-in-out;
         }
-        .about-container img {
+        .about-container a:hover {
+            color: #36566d;
+        }
+        .about-image {
             display: block;
             width: 50%;
-            margin: 0;
-            cursor: pointer;
-        }
-        .about-lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            background-color: #fff;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .about-lightbox.active {
-            display: flex;
-            opacity: 1;
-        }
-        .about-lightbox img {
-            width: auto;
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            cursor: auto;
+            height: auto;
         }
         .page-content {
             width: 90vw;
+            min-height: 100vh;
             margin-left: 5vw;
             margin-right: 5vw;
-            padding: 10rem 0 5rem;
+            padding: 1.5rem 0 5rem;
         }
-        .nav-title {
+        .brand {
             display: block;
-            width: 100%;
-            color: inherit;
+            grid-area: title;
+            width: auto;
+            color: #456b88;
             font-size: 1.25rem;
             line-height: 1.8rem;
-            font-weight: 700;
+            font-weight: 400;
             letter-spacing: 0.05em;
             text-decoration: none;
             white-space: nowrap;
@@ -86,28 +108,53 @@
         }
         .nav-links {
             display: flex;
+            grid-area: links;
             width: 100%;
             justify-content: flex-start;
             flex-wrap: wrap;
             gap: 0.75rem 1rem;
-            font-size: 0.75rem;
-            line-height: 1rem;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
             letter-spacing: 0.1em;
-            text-transform: uppercase;
+            font-weight: 400;
         }
-        .nav-about {
-            display: flex;
-            width: 100%;
-            justify-content: flex-start;
-            gap: 0.75rem 1rem;
-            font-size: 0.75rem;
-            line-height: 1rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-        .nav-links a,
-        .nav-about a {
+        .nav-links a {
+            color: inherit;
             text-decoration: none;
+            transition: color 0.15s ease-in-out;
+        }
+        .nav-links .nav-about-link {
+            flex-basis: 100%;
+            margin-left: 0;
+            color: #a86464;
+            text-align: left;
+        }
+        .brand:hover {
+            color: #36566d;
+        }
+        .nav-links a:hover {
+            color: #d1d5db;
+        }
+        .nav-links .nav-about-link:hover {
+            color: #884747;
+        }
+        .site-footer {
+            display: flex;
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: auto;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 0.5rem;
+            background-color: #f8f8f7;
+            color: #888888;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+        .site-footer p {
+            margin: 0;
         }
         @media (min-width: 768px) {
             .nav-inner,
@@ -116,87 +163,50 @@
                 margin-left: 25vw;
                 margin-right: 25vw;
             }
+            .nav-inner {
+                grid-template-areas:
+                    "title title"
+                    "links links";
+            }
+            .nav-links .nav-about-link {
+                flex-basis: auto;
+                margin-left: 0;
+            }
         }
     </style>
 </head>
-<body class="bg-white text-black">
+<body>
     <!-- Navigation -->
     <nav class="site-nav">
         <div class="nav-inner">
-            <a href="index.html" class="nav-title">Alberto Rafael Colombo Pastran</a>
+            <a href="index.html" class="brand">Alberto Rafael Colombo Pastran</a>
             <div class="nav-links">
-                <a href="cyanotypes.html" class="hover:text-gray-300 transition">Cyanotypes</a>
-                <a href="fashion.html" class="hover:text-gray-300 transition">Fashion</a>
-                <a href="portraits.html" class="hover:text-gray-300 transition">Portraits</a>
-                <a href="spaces.html" class="hover:text-gray-300 transition">Spaces</a>
+                <a href="cyanotypes.html">Cyanotypes</a>
+                <a href="fashion.html">Fashion</a>
+                <a href="portraits.html">Portraits</a>
+                <a href="spaces.html">Spaces</a>
+                <a href="about.html" class="nav-about-link">About</a>
             </div>
-            <div class="nav-about"><a href="about.html" class="hover:text-gray-300 transition">About</a></div>
         </div>
     </nav>
 
     <!-- About Content -->
-    <div class="page-content min-h-screen">
+    <div class="page-content">
         <div class="about-container">
-            <div class="space-y-6">
-                <div class="space-y-6 text-lg leading-relaxed">
-                    <p>
-                        Digital and film photography, cyanotypes and darkroom printing.
-                    </p>
-                    <p>
-                        <a href="mailto:albertorafael.colombopastran@gmail.com">albertorafael.colombopastran@gmail.com</a><br>
-                        Instagram: <a href="https://www.instagram.com/neu.port/" target="_blank" rel="noopener noreferrer">@neu.port</a>
-                    </p>
-                </div>
-                <img 
-                    src="img/about.webp" 
-                    alt="Portrait" 
-                    class="w-full h-auto object-cover"
-                    role="button"
-                    tabindex="0"
-                    aria-label="Expand portrait"
-                >
+            <div class="about-copy">
+                <p>Photographer and film printer based in Rome.</p>
+                <p>
+                    <a href="mailto:albertorafael.colombopastran@gmail.com">albertorafael.colombopastran@gmail.com</a><br>
+                    Instagram: <a href="https://www.instagram.com/neu.port/" target="_blank" rel="noopener noreferrer">@neu.port</a>
+                </p>
+                <img src="img/about.webp" alt="Portrait" class="about-image">
             </div>
         </div>
     </div>
 
-    <div class="about-lightbox" id="about-lightbox" role="dialog" aria-modal="true" aria-label="Expanded portrait">
-        <img src="img/about.webp" alt="Portrait">
-    </div>
-
     <!-- Footer -->
-    <footer class="py-8 text-center text-sm text-gray-500">
+    <footer class="site-footer">
         <p>&copy; 2020-2026 Alberto Rafael Colombo Pastran. All rights reserved.</p>
     </footer>
-    <script>
-        const aboutImage = document.querySelector('.about-container img');
-        const aboutLightbox = document.getElementById('about-lightbox');
-
-        function openAboutLightbox() {
-            aboutLightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeAboutLightbox() {
-            aboutLightbox.classList.remove('active');
-            document.body.style.overflow = '';
-            aboutImage.focus();
-        }
-
-        aboutImage.addEventListener('click', openAboutLightbox);
-        aboutImage.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                openAboutLightbox();
-            }
-        });
-        aboutLightbox.addEventListener('click', (event) => {
-            closeAboutLightbox();
-        });
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && aboutLightbox.classList.contains('active')) {
-                closeAboutLightbox();
-            }
-        });
-    </script>
 </body>
 </html>
