@@ -41,10 +41,10 @@
             background-color: #f8f8f7;
         }
         .site-nav {
-            position: sticky;
-            top: 0;
+            position: fixed;
+            inset: 0 0 auto;
             z-index: 50;
-            padding: 1rem 0 0;
+            padding: 1rem 0;
             background-color: #f8f8f7;
             isolation: isolate;
         }
@@ -59,7 +59,8 @@
             gap: 1rem;
         }
         .about-container {
-            width: 100%;
+            width: fit-content;
+            max-width: 100%;
             font-size: 0.875rem;
             line-height: 1.25rem;
             letter-spacing: 0.1em;
@@ -72,6 +73,9 @@
         }
         .about-copy p {
             margin: 0;
+        }
+        .about-copy > p:first-child {
+            margin-bottom: 0.75rem;
         }
         .about-copy strong {
             display: block;
@@ -89,11 +93,13 @@
             color: #36566d;
         }
         .page-content {
-            width: 90vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
             min-height: 100vh;
-            margin-left: 5vw;
-            margin-right: 5vw;
-            padding: 1.5rem 0 5rem;
+            margin: 0;
+            padding: 0 5vw;
         }
         .brand {
             display: block;
@@ -162,16 +168,24 @@
             margin: 0;
         }
         @media (min-width: 768px) {
-            .nav-inner,
             .page-content {
                 width: 50vw;
                 margin-left: 25vw;
                 margin-right: 25vw;
             }
+        }
+        @media (min-width: 900px) {
             .nav-inner {
-                grid-template-areas:
-                    "title title"
-                    "links links";
+                width: 90vw;
+                margin-left: auto;
+                margin-right: auto;
+                grid-template-areas: "title links";
+                align-items: center;
+            }
+            .nav-links {
+                width: auto;
+                justify-content: flex-end;
+                flex-wrap: nowrap;
             }
             .nav-links .nav-about-link {
                 flex-basis: auto;

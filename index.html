@@ -161,6 +161,21 @@
                 flex-shrink: 0;
             }
         }
+        @media (min-width: 900px) {
+            .nav-inner {
+                width: 90vw;
+                grid-template-areas: "title links";
+                align-items: center;
+            }
+            .nav-links {
+                width: auto;
+                justify-content: flex-end;
+                flex-wrap: nowrap;
+            }
+            .nav-links .nav-about-link {
+                flex-basis: auto;
+            }
+        }
     </style>
 </head>
 <body>

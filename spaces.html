@@ -151,6 +151,23 @@
                 margin-left: 0;
             }
         }
+        @media (min-width: 900px) {
+            .nav-inner {
+                width: 90vw;
+                margin-left: auto;
+                margin-right: auto;
+                grid-template-areas: "title links";
+                align-items: center;
+            }
+            .nav-links {
+                width: auto;
+                justify-content: flex-end;
+                flex-wrap: nowrap;
+            }
+            .nav-links .nav-about-link {
+                flex-basis: auto;
+            }
+        }
         .lightbox {
             display: none;
             position: fixed;
@@ -242,6 +259,7 @@
 
     <script>
         const images = [
+            'img/spaces/spaces-13.webp',
             'img/spaces/space-12.webp',
             'img/spaces/space-11.webp',
             'img/spaces/space-10.webp',
