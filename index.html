@@ -112,27 +112,6 @@
             height: auto;
             user-select: none;
             -webkit-user-drag: none;
-            cursor: pointer;
-        }
-        .cover-lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            background-color: #fff;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .cover-lightbox.active {
-            display: flex;
-            opacity: 1;
-        }
-        .cover-lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
         }
         @media (min-width: 768px) {
             .nav-inner {
@@ -167,43 +146,10 @@
             alt="Cover" 
             class="cover-image"
             draggable="false"
-            role="button"
-            tabindex="0"
-            aria-label="Expand cover image"
         >
-    </div>
-    <div class="cover-lightbox" id="cover-lightbox" role="dialog" aria-modal="true" aria-label="Expanded cover image">
-        <img src="img/index.webp" alt="Cover">
     </div>
     <footer class="site-footer">
         <p>&copy; 2020-2026 Alberto Rafael Colombo Pastran. All rights reserved.</p>
     </footer>
-    <script>
-        const coverImage = document.querySelector('.cover-image');
-        const coverLightbox = document.getElementById('cover-lightbox');
-
-        function openCoverLightbox() {
-            coverLightbox.classList.add('active');
-        }
-
-        function closeCoverLightbox() {
-            coverLightbox.classList.remove('active');
-            coverImage.focus();
-        }
-
-        coverImage.addEventListener('click', openCoverLightbox);
-        coverImage.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                openCoverLightbox();
-            }
-        });
-        coverLightbox.addEventListener('click', closeCoverLightbox);
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && coverLightbox.classList.contains('active')) {
-                closeCoverLightbox();
-            }
-        });
-    </script>
 </body>
 </html>
