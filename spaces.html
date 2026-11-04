@@ -264,21 +264,21 @@
 
     <script>
         const images = [
-            'img/spaces/space-13.webp',
-            'img/spaces/space-12.webp',
-            'img/spaces/space-11.webp',
-            'img/spaces/space-10.webp',
-            'img/spaces/space-9.webp',
-            'img/spaces/space-8.webp',
-            'img/spaces/space-7.webp',
-            'img/spaces/space-6.webp',
-            'img/spaces/space-5.webp',
-            'img/spaces/space-4.webp',
-            'img/spaces/space-3.webp',
-            'img/spaces/space-2.webp',
-            'img/spaces/space-1.webp'
+            { src: 'img/spaces/space-13.webp', width: 1080, height: 1080 },
+            { src: 'img/spaces/space-12.webp', width: 1080, height: 1620 },
+            { src: 'img/spaces/space-11.webp', width: 1620, height: 1080 },
+            { src: 'img/spaces/space-10.webp', width: 1080, height: 1080 },
+            { src: 'img/spaces/space-9.webp', width: 2160, height: 2160 },
+            { src: 'img/spaces/space-8.webp', width: 1080, height: 1080 },
+            { src: 'img/spaces/space-7.webp', width: 1620, height: 1080 },
+            { src: 'img/spaces/space-6.webp', width: 1080, height: 1620 },
+            { src: 'img/spaces/space-5.webp', width: 1080, height: 1080 },
+            { src: 'img/spaces/space-4.webp', width: 1620, height: 1080 },
+            { src: 'img/spaces/space-3.webp', width: 1200, height: 960 },
+            { src: 'img/spaces/space-2.webp', width: 1080, height: 1495 },
+            { src: 'img/spaces/space-1.webp', width: 1080, height: 1080 }
         ];
-        const getImageNumber = (src) => Number(src.match(/spaces?-(\d+)/)?.[1] ?? 0);
+        const getImageNumber = ({ src }) => Number(src.match(/spaces?-(\d+)/)?.[1] ?? 0);
         images.sort((a, b) => getImageNumber(b) - getImageNumber(a));
 
         const lightbox = document.getElementById('lightbox');
@@ -286,14 +286,16 @@
         const galleryGrid = document.querySelector('.gallery-grid');
         let currentIndex = 0;
 
-        images.forEach((src, index) => {
+        images.forEach((image, index) => {
             const item = document.createElement('div');
             item.className = 'gallery-item';
             item.addEventListener('click', () => openLightbox(index));
 
             const thumbnail = document.createElement('img');
-            thumbnail.src = src;
-            thumbnail.alt = `Space ${getImageNumber(src)}`;
+            thumbnail.src = image.src;
+            thumbnail.width = image.width;
+            thumbnail.height = image.height;
+            thumbnail.alt = `Space ${getImageNumber(image)}`;
             thumbnail.loading = 'lazy';
             item.append(thumbnail);
 
@@ -313,25 +315,66 @@
             const columnGap = parseFloat(getComputedStyle(galleryGrid).columnGap) || 0;
             const rowGap = parseFloat(getComputedStyle(galleryColumns[0]).rowGap) || 0;
             const columnWidth = (galleryGrid.clientWidth - columnGap * (columnCount - 1)) / columnCount;
-            const columnHeights = Array(columnCount).fill(0);
-            const columnItems = Array(columnCount).fill(0);
-
             galleryColumns.forEach((column, index) => {
                 column.hidden = index >= columnCount;
                 column.replaceChildren();
             });
 
-            galleryItems.forEach((item) => {
+            const itemsByHeight = galleryItems.map((item, index) => {
                 const image = item.querySelector('img');
-                const columnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-                const aspectRatio = image.naturalWidth && image.naturalHeight
-                    ? image.naturalHeight / image.naturalWidth
-                    : 1;
+                const width = image.naturalWidth || image.width;
+                const height = image.naturalHeight || image.height;
+                return { item, index, height: columnWidth * height / width };
+            }).sort((a, b) => b.height - a.height || a.index - b.index);
+            const columnHeights = Array(columnCount).fill(0);
+            const columnItems = Array.from({ length: columnCount }, () => []);
 
-                if (columnItems[columnIndex] > 0) columnHeights[columnIndex] += rowGap;
-                galleryColumns[columnIndex].append(item);
-                columnHeights[columnIndex] += columnWidth * aspectRatio;
-                columnItems[columnIndex] += 1;
+            itemsByHeight.forEach((entry) => {
+                const columnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+                if (columnItems[columnIndex].length > 0) columnHeights[columnIndex] += rowGap;
+                columnHeights[columnIndex] += entry.height;
+                columnItems[columnIndex].push(entry);
+            });
+
+            const getColumnHeights = () => columnItems.map((items) =>
+                items.reduce((height, entry) => height + entry.height, 0)
+                    + Math.max(0, items.length - 1) * rowGap
+            );
+            let bestSwap;
+            do {
+                bestSwap = null;
+                let bestSpread = Math.max(...getColumnHeights()) - Math.min(...getColumnHeights());
+
+                for (let firstColumn = 0; firstColumn < columnCount; firstColumn++) {
+                    for (let secondColumn = firstColumn + 1; secondColumn < columnCount; secondColumn++) {
+                        for (let firstIndex = 0; firstIndex < columnItems[firstColumn].length; firstIndex++) {
+                            for (let secondIndex = 0; secondIndex < columnItems[secondColumn].length; secondIndex++) {
+                                [columnItems[firstColumn][firstIndex], columnItems[secondColumn][secondIndex]] =
+                                    [columnItems[secondColumn][secondIndex], columnItems[firstColumn][firstIndex]];
+                                const heights = getColumnHeights();
+                                const spread = Math.max(...heights) - Math.min(...heights);
+                                [columnItems[firstColumn][firstIndex], columnItems[secondColumn][secondIndex]] =
+                                    [columnItems[secondColumn][secondIndex], columnItems[firstColumn][firstIndex]];
+
+                                if (spread < bestSpread) {
+                                    bestSpread = spread;
+                                    bestSwap = { firstColumn, secondColumn, firstIndex, secondIndex };
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (bestSwap) {
+                    const { firstColumn, secondColumn, firstIndex, secondIndex } = bestSwap;
+                    [columnItems[firstColumn][firstIndex], columnItems[secondColumn][secondIndex]] =
+                        [columnItems[secondColumn][secondIndex], columnItems[firstColumn][firstIndex]];
+                }
+            } while (bestSwap);
+
+            columnItems.forEach((items, index) => {
+                items.sort((a, b) => a.index - b.index);
+                items.forEach(({ item }) => galleryColumns[index].append(item));
             });
         }
 
@@ -344,7 +387,7 @@
 
         function openLightbox(index) {
             currentIndex = index;
-            lightboxImg.src = images[currentIndex];
+            lightboxImg.src = images[currentIndex].src;
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -358,7 +401,7 @@
             currentIndex += direction;
             if (currentIndex < 0) currentIndex = images.length - 1;
             if (currentIndex >= images.length) currentIndex = 0;
-            lightboxImg.src = images[currentIndex];
+            lightboxImg.src = images[currentIndex].src;
         }
 
         // Close on escape key
