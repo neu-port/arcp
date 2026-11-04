@@ -10,12 +10,17 @@
         body {
             font-family: 'Playfair Display', Georgia, serif;
         }
+        html,
+        body.bg-white {
+            background-color: #fff;
+        }
         .site-nav {
             position: fixed;
             inset: 0 0 auto;
             z-index: 50;
             padding: 1rem 0;
-            background: rgba(255, 255, 255, 0.9);
+            background-color: #fff;
+            isolation: isolate;
         }
         .nav-inner {
             display: flex;
@@ -35,20 +40,43 @@
         }
         .about-container img {
             display: block;
-            width: 100%;
+            width: 50%;
             margin: 0;
+            cursor: pointer;
+        }
+        .about-lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .about-lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        .about-lightbox img {
+            width: auto;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            cursor: auto;
         }
         .page-content {
             width: 90vw;
             margin-left: 5vw;
             margin-right: 5vw;
-            padding: 6.5rem 0 5rem;
+            padding: 10rem 0 5rem;
         }
         .nav-title {
             display: block;
             width: 100%;
             color: inherit;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             line-height: 1.8rem;
             font-weight: 700;
             letter-spacing: 0.05em;
@@ -67,6 +95,20 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
+        .nav-about {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            gap: 0.75rem 1rem;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .nav-links a,
+        .nav-about a {
+            text-decoration: none;
+        }
         @media (min-width: 768px) {
             .nav-inner,
             .page-content {
@@ -83,12 +125,12 @@
         <div class="nav-inner">
             <a href="index.html" class="nav-title">Alberto Rafael Colombo Pastran</a>
             <div class="nav-links">
-                <a href="about.html" class="hover:text-gray-300 transition">About</a>
                 <a href="cyanotypes.html" class="hover:text-gray-300 transition">Cyanotypes</a>
                 <a href="fashion.html" class="hover:text-gray-300 transition">Fashion</a>
                 <a href="portraits.html" class="hover:text-gray-300 transition">Portraits</a>
                 <a href="spaces.html" class="hover:text-gray-300 transition">Spaces</a>
             </div>
+            <div class="nav-about"><a href="about.html" class="hover:text-gray-300 transition">About</a></div>
         </div>
     </nav>
 
@@ -109,14 +151,52 @@
                     src="img/about.webp" 
                     alt="Portrait" 
                     class="w-full h-auto object-cover"
+                    role="button"
+                    tabindex="0"
+                    aria-label="Expand portrait"
                 >
             </div>
         </div>
+    </div>
+
+    <div class="about-lightbox" id="about-lightbox" role="dialog" aria-modal="true" aria-label="Expanded portrait">
+        <img src="img/about.webp" alt="Portrait">
     </div>
 
     <!-- Footer -->
     <footer class="py-8 text-center text-sm text-gray-500">
         <p>&copy; 2020-2026 Alberto Rafael Colombo Pastran. All rights reserved.</p>
     </footer>
+    <script>
+        const aboutImage = document.querySelector('.about-container img');
+        const aboutLightbox = document.getElementById('about-lightbox');
+
+        function openAboutLightbox() {
+            aboutLightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAboutLightbox() {
+            aboutLightbox.classList.remove('active');
+            document.body.style.overflow = '';
+            aboutImage.focus();
+        }
+
+        aboutImage.addEventListener('click', openAboutLightbox);
+        aboutImage.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openAboutLightbox();
+            }
+        });
+        aboutLightbox.addEventListener('click', (event) => {
+            closeAboutLightbox();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && aboutLightbox.classList.contains('active')) {
+                closeAboutLightbox();
+            }
+        });
+    </script>
 </body>
 </html>

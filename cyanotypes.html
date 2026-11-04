@@ -10,12 +10,17 @@
         body {
             font-family: 'Playfair Display', Georgia, serif;
         }
+        html,
+        body.bg-white {
+            background-color: #fff;
+        }
         .site-nav {
             position: fixed;
             inset: 0 0 auto;
             z-index: 50;
             padding: 1rem 0;
-            background: rgba(255, 255, 255, 0.9);
+            background-color: #fff;
+            isolation: isolate;
         }
         .nav-inner {
             display: flex;
@@ -31,7 +36,7 @@
             display: block;
             width: 100%;
             color: inherit;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             line-height: 1.8rem;
             font-weight: 700;
             letter-spacing: 0.05em;
@@ -50,6 +55,20 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
+        .nav-about {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            gap: 0.75rem 1rem;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .nav-links a,
+        .nav-about a {
+            text-decoration: none;
+        }
         .gallery-container {
             width: 100%;
         }
@@ -57,7 +76,7 @@
             width: 90vw;
             margin-left: 5vw;
             margin-right: 5vw;
-            padding: 6.5rem 0 5rem;
+            padding: 10rem 0 5rem;
         }
         @media (min-width: 768px) {
             .nav-inner,
@@ -73,7 +92,7 @@
             inset: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: #fff;
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -96,15 +115,6 @@
             opacity: 1;
             transform: scale(1);
         }
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: black;
-            font-size: 40px;
-            cursor: pointer;
-            z-index: 1001;
-        }
         .gallery-grid {
             column-count: 2;
             column-gap: 1rem;
@@ -118,11 +128,13 @@
             break-inside: avoid;
             margin-bottom: 1rem;
             cursor: pointer;
+            background-color: #fff;
         }
         .gallery-item img {
             display: block;
             width: 100%;
             height: auto;
+            background-color: #fff;
         }
     </style>
 </head>
@@ -131,12 +143,12 @@
         <div class="nav-inner">
             <a href="index.html" class="nav-title">Alberto Rafael Colombo Pastran</a>
             <div class="nav-links">
-                <a href="about.html" class="hover:text-gray-300 transition">About</a>
                 <a href="cyanotypes.html" class="hover:text-gray-300 transition" aria-current="page">Cyanotypes</a>
                 <a href="fashion.html" class="hover:text-gray-300 transition">Fashion</a>
                 <a href="portraits.html" class="hover:text-gray-300 transition">Portraits</a>
                 <a href="spaces.html" class="hover:text-gray-300 transition">Spaces</a>
             </div>
+            <div class="nav-about"><a href="about.html" class="hover:text-gray-300 transition">About</a></div>
         </div>
     </nav>
 
@@ -166,7 +178,6 @@
     </main>
 
     <div class="lightbox" id="lightbox">
-        <span class="close-btn" onclick="closeLightbox()">&times;</span>
         <img id="lightbox-img" src="" alt="">
     </div>
 
@@ -209,8 +220,6 @@
         });
 
         lightbox.addEventListener('click', (event) => {
-            if (event.target === lightbox.querySelector('.close-btn')) return;
-
             if (event.target === lightboxImg) {
                 const bounds = lightboxImg.getBoundingClientRect();
                 const position = (event.clientX - bounds.left) / bounds.width;
@@ -219,6 +228,8 @@
                     navigateLightbox(-1);
                 } else if (position > 2 / 3) {
                     navigateLightbox(1);
+                } else {
+                    closeLightbox();
                 }
             } else if (event.target === lightbox) {
                 closeLightbox();
