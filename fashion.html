@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        .site-nav {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 50;
+            padding: 1rem 0;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .nav-inner {
+            display: flex;
+            width: 90vw;
+            max-width: none;
+            margin-left: 5vw;
+            margin-right: 5vw;
+            align-items: stretch;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .nav-title {
+            display: block;
+            width: 100%;
+            color: inherit;
+            font-size: 1.5rem;
+            line-height: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            white-space: nowrap;
+            text-align: left;
+        }
+        .nav-links {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .gallery-container {
+            width: 100%;
+        }
+        .page-content {
+            width: 90vw;
+            margin-left: 5vw;
+            margin-right: 5vw;
+            padding: 6.5rem 0 5rem;
+        }
+        @media (min-width: 768px) {
+            .nav-inner,
+            .page-content {
+                width: 50vw;
+                margin-left: 25vw;
+                margin-right: 25vw;
+            }
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .lightbox.active img {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: black;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .gallery-category + .gallery-category {
+            margin-top: 2rem;
+        }
+        .gallery-category-header {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .gallery-category h2 {
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .gallery-category-header a {
+            font-size: 0.875rem;
+            text-decoration: none;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        .gallery-item {
+            cursor: pointer;
+        }
+        .gallery-item img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body class="bg-white text-black">
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-title">Alberto Rafael Colombo Pastran</a>
+            <div class="nav-links">
+                <a href="about.html" class="hover:text-gray-300 transition">About</a>
+                <a href="cyanotypes.html" class="hover:text-gray-300 transition">Cyanotypes</a>
+                <a href="fashion.html" class="hover:text-gray-300 transition">Fashion</a>
+                <a href="portraits.html" class="hover:text-gray-300 transition">Portraits</a>
+                <a href="spaces.html" class="hover:text-gray-300 transition">Spaces</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page-content min-h-screen">
+        <div class="gallery-container">
+        </div>
+    </main>
+
+    <div class="lightbox" id="lightbox">
+        <span class="close-btn" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <script>
+        const categories = {
+            ALT: ['alt-1.webp', 'alt-2.webp', 'alt-3.webp'],
+            PS: ['ps-1.webp', 'ps-2.webp', 'ps-3.webp', 'ps-4.webp', 'ps-5.webp', 'ps-6.webp'],
+            TQ: ['tq-a.webp', 'tq-b.webp', 'tq-c.webp', 'tq-1.webp', 'tq-2.webp', 'tq-3.webp', 'tq-4.webp', 'tq-5.webp', 'tq-6.webp']
+        };
+        const images = Object.values(categories).flatMap(files =>
+            files.map(file => `img/fashion/${file}`)
+        );
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        let currentIndex = 0;
+
+        let firstImageIndex = 0;
+        Object.entries(categories).forEach(([name, files]) => {
+            const section = document.createElement('section');
+            section.className = 'gallery-category';
+
+            const header = document.createElement('div');
+            header.className = 'gallery-category-header';
+
+            const heading = document.createElement('h2');
+            const categoryDetails = {
+                ALT: { title: 'Atelier Altalen', instagram: 'https://www.instagram.com/atelieraltalen/' },
+                PS: { title: 'Psalm Studios', instagram: 'https://www.instagram.com/psalmsstudios/' },
+                TQ: { title: 'Teresa Quadrani', instagram: 'https://www.instagram.com/teresaquadrani/' }
+            };
+            const details = categoryDetails[name];
+            heading.textContent = details ? details.title : name;
+            header.append(heading);
+
+            if (details) {
+                const instagramLink = document.createElement('a');
+                instagramLink.href = details.instagram;
+                instagramLink.textContent = `@${new URL(details.instagram).pathname.split('/').filter(Boolean).pop()}`;
+                instagramLink.target = '_blank';
+                instagramLink.rel = 'noopener noreferrer';
+                header.append(instagramLink);
+            }
+
+            section.append(header);
+
+            const grid = document.createElement('div');
+            grid.className = 'gallery-grid';
+            const categoryStartIndex = firstImageIndex;
+
+            files.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.addEventListener('click', () => openLightbox(categoryStartIndex + index));
+
+                const thumbnail = document.createElement('img');
+                thumbnail.src = `img/fashion/${file}`;
+                thumbnail.alt = `${name} ${index + 1}`;
+                thumbnail.loading = 'lazy';
+                item.append(thumbnail);
+                grid.append(item);
+            });
+
+            section.append(grid);
+            document.querySelector('.gallery-container').append(section);
+            firstImageIndex += files.length;
+        });
+
+        function openLightbox(index) {
+            currentIndex = index;
+            lightboxImg.src = images[currentIndex];
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function navigateLightbox(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = images.length - 1;
+            if (currentIndex >= images.length) currentIndex = 0;
+            lightboxImg.src = images[currentIndex];
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeLightbox();
+            if (event.key === 'ArrowLeft') navigateLightbox(-1);
+            if (event.key === 'ArrowRight') navigateLightbox(1);
+        });
+
+        lightbox.addEventListener('click', (event) => {
+            if (event.target === lightbox.querySelector('.close-btn')) return;
+
+            if (event.target === lightboxImg) {
+                const bounds = lightboxImg.getBoundingClientRect();
+                const position = (event.clientX - bounds.left) / bounds.width;
+
+                if (position < 1 / 3) {
+                    navigateLightbox(-1);
+                } else if (position > 2 / 3) {
+                    navigateLightbox(1);
+                }
+            } else if (event.target === lightbox) {
+                closeLightbox();
+            }
+        });
+    </script>
+    <footer class="py-8 text-center text-sm text-gray-500">
+        <p>&copy; 2020-2026 Alberto Rafael Colombo Pastran. All rights reserved.</p>
+    </footer>
+</body>
+</html>

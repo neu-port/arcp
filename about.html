@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        .site-nav {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 50;
+            padding: 1rem 0;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .nav-inner {
+            display: flex;
+            width: 90vw;
+            max-width: none;
+            margin-left: 5vw;
+            margin-right: 5vw;
+            align-items: stretch;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .about-container {
+            width: 100%;
+        }
+        .about-container a {
+            overflow-wrap: anywhere;
+        }
+        .about-container img {
+            display: block;
+            width: 100%;
+            margin: 0;
+        }
+        .page-content {
+            width: 90vw;
+            margin-left: 5vw;
+            margin-right: 5vw;
+            padding: 6.5rem 0 5rem;
+        }
+        .nav-title {
+            display: block;
+            width: 100%;
+            color: inherit;
+            font-size: 1.5rem;
+            line-height: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            white-space: nowrap;
+            text-align: left;
+        }
+        .nav-links {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        @media (min-width: 768px) {
+            .nav-inner,
+            .page-content {
+                width: 50vw;
+                margin-left: 25vw;
+                margin-right: 25vw;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-black">
+    <!-- Navigation -->
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-title">Alberto Rafael Colombo Pastran</a>
+            <div class="nav-links">
+                <a href="about.html" class="hover:text-gray-300 transition">About</a>
+                <a href="cyanotypes.html" class="hover:text-gray-300 transition">Cyanotypes</a>
+                <a href="fashion.html" class="hover:text-gray-300 transition">Fashion</a>
+                <a href="portraits.html" class="hover:text-gray-300 transition">Portraits</a>
+                <a href="spaces.html" class="hover:text-gray-300 transition">Spaces</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Content -->
+    <div class="page-content min-h-screen">
+        <div class="about-container">
+            <div class="space-y-6">
+                <div class="space-y-6 text-lg leading-relaxed">
+                    <p>
+                        Digital and film photography, cyanotypes and darkroom printing.
+                    </p>
+                    <p>
+                        <a href="mailto:albertorafael.colombopastran@gmail.com">albertorafael.colombopastran@gmail.com</a><br>
+                        Instagram: <a href="https://www.instagram.com/neu.port/" target="_blank" rel="noopener noreferrer">@neu.port</a>
+                    </p>
+                </div>
+                <img 
+                    src="img/about.webp" 
+                    alt="Portrait" 
+                    class="w-full h-auto object-cover"
+                >
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-sm text-gray-500">
+        <p>&copy; 2020-2026 Alberto Rafael Colombo Pastran. All rights reserved.</p>
+    </footer>
+</body>
+</html>
