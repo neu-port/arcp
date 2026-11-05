@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyanotypes | A R C P</title>
-    <link rel="preload" href="fonts/eb-garamond-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+    <title>Cyanotypes | arcp</title>
+    <link rel="stylesheet" href="common.css">
     <style>
         .gallery-container {
             width: 100%;
@@ -17,20 +17,10 @@
             padding: 10rem 0 5rem;
         }
         @media (min-width: 768px) {
-            .nav-inner,
             .page-content {
                 width: 50vw;
                 margin-left: 25vw;
                 margin-right: 25vw;
-            }
-            .nav-inner {
-                grid-template-areas:
-                    "title title"
-                    "links links";
-            }
-            .nav-links .nav-about-link {
-                flex-basis: auto;
-                margin-left: 0;
             }
         }
         .lightbox {
@@ -92,7 +82,6 @@
             background-color: #f8f8f7;
         }
     </style>
-    <link rel="stylesheet" href="common.css">
 </head>
 <body>
     <nav class="site-nav">
