@@ -138,6 +138,93 @@ a:hover {
     margin: 0;
 }
 
+.gallery-container {
+    container-type: inline-size;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 0.25cqw;
+    grid-auto-flow: dense;
+    column-gap: 2cqw;
+}
+
+.gallery-item {
+    min-width: 0;
+    cursor: pointer;
+    background-color: #f8f8f7;
+    text-decoration: none;
+}
+
+@supports (width: 1cqw) {
+    .gallery-item {
+        grid-row: span var(--sm, 10);
+    }
+}
+
+.gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    background-color: #f8f8f7;
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background-color: #f8f8f7;
+}
+
+.lightbox:target {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body:has(.lightbox:target) {
+    overflow: hidden;
+}
+
+.lightbox .lb-bg {
+    position: absolute;
+    inset: 0;
+}
+
+.lightbox .lb-frame {
+    position: relative;
+    z-index: 1;
+}
+
+.lightbox .lb-frame img {
+    display: block;
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.lightbox .lb-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 33.333%;
+    cursor: pointer;
+}
+
+.lightbox .lb-zone-prev {
+    left: 0;
+}
+
+.lightbox .lb-zone-center {
+    left: 33.333%;
+}
+
+.lightbox .lb-zone-next {
+    left: 66.667%;
+}
+
 @media (min-width: 900px) {
     .nav-inner {
         width: 90vw;
