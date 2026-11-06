@@ -46,6 +46,16 @@
         .gallery-series + .gallery-series {
             margin-top: 2rem;
         }
+        @media (max-width: 899px) {
+            .gallery-grid {
+                grid-auto-flow: row;
+                grid-auto-rows: auto;
+                row-gap: 1rem;
+            }
+            .gallery-grid .gallery-item {
+                grid-row: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -103,7 +113,7 @@
                     <div class="gallery-grid">
                         <a class="gallery-item" style="--sm:204" href="#f-psb-1"><img src="img/fashion/psb-1.webp" width="1080" height="1080" alt="PS 4" loading="lazy"></a>
                         <a class="gallery-item" style="--sm:270" href="#f-psb-3"><img src="img/fashion/psb-3.webp" width="1080" height="1440" alt="PS 6" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:155" href="#f-psb-2"><img src="img/fashion/psb-2.webp" width="1440" height="1080" alt="PS 5" loading="lazy"></a>
+                        <a class="gallery-item" style="--sm:196" href="#f-psb-2"><img src="img/fashion/psb-2.webp" width="1440" height="1080" alt="PS 5" loading="lazy"></a>
                     </div>
                 </div>
             </section>
