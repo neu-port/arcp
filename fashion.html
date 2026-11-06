@@ -30,8 +30,16 @@
             margin-block-start: var(--gallery-group-gap);
         }
         .gallery-grid {
-            grid-auto-rows: 0.252cqw;
-            row-gap: 2cqw;
+            display: flex;
+            column-gap: 2cqw;
+        }
+        .gallery-col {
+            flex: 1 1 0;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2cqw;
         }
         .gallery-category-header {
             display: flex;
@@ -77,9 +85,13 @@
                     <a href="https://www.instagram.com/atelieraltalen/" target="_blank" rel="noopener noreferrer">@atelieraltalen</a>
                 </div>
                 <div class="gallery-grid">
-                    <a class="gallery-item" style="--sm:29" href="#f-alt-1"><img src="img/fashion/alt-1.webp" width="1080" height="1350" alt="ALT 1" loading="lazy"></a>
-                    <a class="gallery-item" style="--sm:29" href="#f-alt-2"><img src="img/fashion/alt-2.webp" width="1080" height="1350" alt="ALT 2" loading="lazy"></a>
-                    <a class="gallery-item" style="--sm:23" href="#f-alt-3"><img src="img/fashion/alt-3.webp" width="1080" height="1080" alt="ALT 3" loading="lazy"></a>
+                    <div class="gallery-col">
+                        <a class="gallery-item" href="#f-alt-1"><img src="img/fashion/alt-1.webp" width="1080" height="1350" alt="ALT 1" loading="lazy"></a>
+                        <a class="gallery-item" href="#f-alt-3"><img src="img/fashion/alt-3.webp" width="1080" height="1080" alt="ALT 3" loading="lazy"></a>
+                    </div>
+                    <div class="gallery-col">
+                        <a class="gallery-item" href="#f-alt-2"><img src="img/fashion/alt-2.webp" width="1080" height="1350" alt="ALT 2" loading="lazy"></a>
+                    </div>
                 </div>
             </section>
             <section class="gallery-category">
@@ -89,9 +101,13 @@
                     <a href="https://www.instagram.com/haubergier_/" target="_blank" rel="noopener noreferrer">@haubergier_</a>
                 </div>
                 <div class="gallery-grid">
-                    <a class="gallery-item" style="--sm:29" href="#f-ch-1"><img src="img/fashion/ch-1.webp" width="1080" height="1350" alt="CH 1" loading="lazy"></a>
-                    <a class="gallery-item" style="--sm:29" href="#f-ch-2"><img src="img/fashion/ch-2.webp" width="1080" height="1350" alt="CH 2" loading="lazy"></a>
-                    <a class="gallery-item" style="--sm:29" href="#f-ch-3"><img src="img/fashion/ch-3.webp" width="1080" height="1350" alt="CH 3" loading="lazy"></a>
+                    <div class="gallery-col">
+                        <a class="gallery-item" href="#f-ch-1"><img src="img/fashion/ch-1.webp" width="1080" height="1350" alt="CH 1" loading="lazy"></a>
+                        <a class="gallery-item" href="#f-ch-3"><img src="img/fashion/ch-3.webp" width="1080" height="1350" alt="CH 3" loading="lazy"></a>
+                    </div>
+                    <div class="gallery-col">
+                        <a class="gallery-item" href="#f-ch-2"><img src="img/fashion/ch-2.webp" width="1080" height="1350" alt="CH 2" loading="lazy"></a>
+                    </div>
                 </div>
             </section>
             <section class="gallery-category">
@@ -101,16 +117,24 @@
                 </div>
                 <div class="gallery-series">
                     <div class="gallery-grid">
-                        <a class="gallery-item" style="--sm:34" href="#f-psa-1"><img src="img/fashion/psa-1.webp" width="1080" height="1620" alt="PS 1" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:34" href="#f-psa-2"><img src="img/fashion/psa-2.webp" width="1080" height="1620" alt="PS 2" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:34" href="#f-psa-3"><img src="img/fashion/psa-3.webp" width="1080" height="1620" alt="PS 3" loading="lazy"></a>
+                        <div class="gallery-col">
+                            <a class="gallery-item" href="#f-psa-1"><img src="img/fashion/psa-1.webp" width="1080" height="1620" alt="PS 1" loading="lazy"></a>
+                            <a class="gallery-item" href="#f-psa-3"><img src="img/fashion/psa-3.webp" width="1080" height="1620" alt="PS 3" loading="lazy"></a>
+                        </div>
+                        <div class="gallery-col">
+                            <a class="gallery-item" href="#f-psa-2"><img src="img/fashion/psa-2.webp" width="1080" height="1620" alt="PS 2" loading="lazy"></a>
+                        </div>
                     </div>
                 </div>
                 <div class="gallery-series">
                     <div class="gallery-grid">
-                        <a class="gallery-item" style="--sm:18" href="#f-psb-1"><img src="img/fashion/psb-1.webp" width="1440" height="1080" alt="PS 4" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:30" href="#f-psb-3"><img src="img/fashion/psb-3.webp" width="1080" height="1440" alt="PS 6" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:23" href="#f-psb-2"><img src="img/fashion/psb-2.webp" width="1080" height="1080" alt="PS 5" loading="lazy"></a>
+                        <div class="gallery-col">
+                            <a class="gallery-item" href="#f-psb-1"><img src="img/fashion/psb-1.webp" width="1440" height="1080" alt="PS 4" loading="lazy"></a>
+                            <a class="gallery-item" href="#f-psb-2"><img src="img/fashion/psb-2.webp" width="1080" height="1080" alt="PS 5" loading="lazy"></a>
+                        </div>
+                        <div class="gallery-col">
+                            <a class="gallery-item" href="#f-psb-3"><img src="img/fashion/psb-3.webp" width="1080" height="1440" alt="PS 6" loading="lazy"></a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -121,19 +145,27 @@
                 </div>
                 <div class="gallery-series">
                     <div class="gallery-grid">
-                        <a class="gallery-item" style="--sm:29" href="#f-tqb-1"><img src="img/fashion/tqb-1.webp" width="1080" height="1350" alt="TQ 1" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:29" href="#f-tqb-2"><img src="img/fashion/tqb-2.webp" width="1080" height="1350" alt="TQ 2" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:29" href="#f-tqb-3"><img src="img/fashion/tqb-3.webp" width="1080" height="1350" alt="TQ 3" loading="lazy"></a>
+                        <div class="gallery-col">
+                            <a class="gallery-item" href="#f-tqb-1"><img src="img/fashion/tqb-1.webp" width="1080" height="1350" alt="TQ 1" loading="lazy"></a>
+                            <a class="gallery-item" href="#f-tqb-3"><img src="img/fashion/tqb-3.webp" width="1080" height="1350" alt="TQ 3" loading="lazy"></a>
+                        </div>
+                        <div class="gallery-col">
+                            <a class="gallery-item" href="#f-tqb-2"><img src="img/fashion/tqb-2.webp" width="1080" height="1350" alt="TQ 2" loading="lazy"></a>
+                        </div>
                     </div>
                 </div>
                 <div class="gallery-series">
                     <div class="gallery-grid">
-                        <a class="gallery-item" style="--sm:29" href="#f-tqa-1"><img src="img/fashion/tqa-1.webp" width="1080" height="1350" alt="TQ 4" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:29" href="#f-tqa-2"><img src="img/fashion/tqa-2.webp" width="1080" height="1350" alt="TQ 5" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:29" href="#f-tqa-3"><img src="img/fashion/tqa-3.webp" width="1080" height="1350" alt="TQ 6" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:29" href="#f-tqa-4"><img src="img/fashion/tqa-4.webp" width="1080" height="1350" alt="TQ 7" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:29" href="#f-tqa-5"><img src="img/fashion/tqa-5.webp" width="1080" height="1350" alt="TQ 8" loading="lazy"></a>
-                        <a class="gallery-item" style="--sm:29" href="#f-tqa-6"><img src="img/fashion/tqa-6.webp" width="1080" height="1350" alt="TQ 9" loading="lazy"></a>
+                        <div class="gallery-col">
+                            <a class="gallery-item" href="#f-tqa-1"><img src="img/fashion/tqa-1.webp" width="1080" height="1350" alt="TQ 4" loading="lazy"></a>
+                            <a class="gallery-item" href="#f-tqa-3"><img src="img/fashion/tqa-3.webp" width="1080" height="1350" alt="TQ 6" loading="lazy"></a>
+                            <a class="gallery-item" href="#f-tqa-5"><img src="img/fashion/tqa-5.webp" width="1080" height="1350" alt="TQ 8" loading="lazy"></a>
+                        </div>
+                        <div class="gallery-col">
+                            <a class="gallery-item" href="#f-tqa-2"><img src="img/fashion/tqa-2.webp" width="1080" height="1350" alt="TQ 5" loading="lazy"></a>
+                            <a class="gallery-item" href="#f-tqa-4"><img src="img/fashion/tqa-4.webp" width="1080" height="1350" alt="TQ 7" loading="lazy"></a>
+                            <a class="gallery-item" href="#f-tqa-6"><img src="img/fashion/tqa-6.webp" width="1080" height="1350" alt="TQ 9" loading="lazy"></a>
+                        </div>
                     </div>
                 </div>
             </section>
